@@ -1,9 +1,6 @@
 package cn.doublefloat.pbms.common.utils;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 字符串工具类
@@ -181,5 +178,54 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         return string.substring(start, end);
     }
 
+    public static String format(String template, Object... param) {
+        if (isEmpty(template) || isEmpty(param)) {
+            return template;
+        }
+        return null;
+    }
 
+    /**
+     * 字符串转Set
+     *
+     * @param string    字符串
+     * @param separator 分隔符
+     * @return Set集合
+     */
+    public static final Set<String> strToSet(String string, String separator) {
+        return new HashSet<String>(strToList(string, separator, true, false));
+    }
+
+
+    /**
+     * 字符串转List
+     *
+     * @param string      字符串
+     * @param separator   分隔符
+     * @param filterBlank 是否过滤空白
+     * @param trim        是否去掉首尾空白
+     * @return list集合
+     */
+    public static final List<String> strToList(String string, String separator, Boolean filterBlank, Boolean trim) {
+        List<String> list = new ArrayList<>();
+        if (isNull(string) || isEmpty(string)) {
+            return list;
+        }
+
+        if (filterBlank && StringUtils.isBlank(string)) {
+            return list;
+        }
+
+        String[] split = string.split(separator);
+        for (String str : split) {
+            if (filterBlank && StringUtils.isBlank(str)) {
+                continue;
+            }
+            if (trim) {
+                str = str.trim();
+            }
+            list.add(str);
+        }
+        return list;
+    }
 }
