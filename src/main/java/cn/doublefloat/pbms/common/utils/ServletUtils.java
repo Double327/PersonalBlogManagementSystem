@@ -31,7 +31,12 @@ public class ServletUtils {
      * @return 参数值
      */
     public static Integer getParameterToInteger(String name) {
-        return Integer.valueOf(getRequest().getParameter(name));
+        String value = getRequest().getParameter(name);
+        if (StringUtils.isNotNull(value)) {
+            return Integer.valueOf(value);
+        } else {
+            return 0;
+        }
     }
 
 
