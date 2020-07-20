@@ -99,7 +99,7 @@ public interface UserMapper {
      * @param username 用户名
      * @return 结果
      */
-    public Boolean checkUsernameUnique(String username);
+    public String checkUsernameUnique(String username);
 
     /**
      * 检查手机号是否存在
@@ -107,7 +107,7 @@ public interface UserMapper {
      * @param phoneNum 手机号
      * @return 结果
      */
-    public Boolean checkPhoneNumUnique(String phoneNum);
+    public String checkPhoneNumUnique(String phoneNum);
 
     /**
      * 检查邮箱是否存在
@@ -115,5 +115,5 @@ public interface UserMapper {
      * @param email 邮箱
      * @return 结果
      */
-    public Boolean checkEmailUnique(String email);
+    public String checkEmailUnique(String email);
 }

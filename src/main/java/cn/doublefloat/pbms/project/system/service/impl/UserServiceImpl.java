@@ -56,24 +56,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer updateUser(User user) {
-        userMapper.updateUser(user);
-        return null;
+        return userMapper.updateUser(user);
     }
 
     @Override
     public Integer resetUserPassword(String username, String password) {
-        userMapper.resetUserPassword(username, passwordEncoder.encode(password));
-        return null;
+        return userMapper.resetUserPassword(username, passwordEncoder.encode(password));
     }
 
     @Override
     public Integer updateUserStatus(User user) {
-        return null;
+        return userMapper.updateUserStatus(user);
     }
 
     @Override
     public Integer updateUserAvatar(User user) {
-        return null;
+        return userMapper.updateUserAvatar(user);
     }
 
     @Override
@@ -87,17 +85,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean checkUsernameUnique(String username) {
-        return null;
+    public String checkUsernameUnique(String username) {
+        return userMapper.checkUsernameUnique(username);
     }
 
     @Override
-    public Boolean checkPhoneNumUnique(String phoneNum) {
-        return null;
+    public String checkPhoneNumUnique(String phoneNum) {
+        return userMapper.checkPhoneNumUnique(phoneNum);
     }
 
     @Override
-    public Boolean checkEmailUnique(String email) {
-        return null;
+    public String checkEmailUnique(String email) {
+        return userMapper.checkEmailUnique(email);
     }
 }

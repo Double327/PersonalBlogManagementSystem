@@ -2,6 +2,7 @@ package cn.doublefloat.pbms.framework.web.controller;
 
 import cn.doublefloat.pbms.common.constant.HttpStatus;
 import cn.doublefloat.pbms.common.utils.StringUtils;
+import cn.doublefloat.pbms.framework.web.domain.AjaxResult;
 import cn.doublefloat.pbms.framework.web.page.PageDomain;
 import cn.doublefloat.pbms.framework.web.page.TableDataResult;
 import cn.doublefloat.pbms.framework.web.page.TableService;
@@ -33,5 +34,9 @@ public class BaseController {
         tableDataResult.setRows(list);
         tableDataResult.setTotal(new PageInfo(list).getTotal());
         return tableDataResult;
+    }
+
+    protected AjaxResult toAjax(Integer row) {
+        return row > 0 ? AjaxResult.success() : AjaxResult.error();
     }
 }
