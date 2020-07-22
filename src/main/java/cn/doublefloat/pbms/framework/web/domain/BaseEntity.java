@@ -2,6 +2,7 @@ package cn.doublefloat.pbms.framework.web.domain;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * @date 2020/7/19 4:18 下午
  */
 @Data
-public class BaseEntity {
+public class BaseEntity implements Serializable {
 
     /**
      * 创建人

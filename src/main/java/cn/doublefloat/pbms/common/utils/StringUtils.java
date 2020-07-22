@@ -69,7 +69,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * 判断一个字符串是否是空串
      */
     public static Boolean isEmpty(String string) {
-        return isNotNull(string) || !EMPTY_STRING.equals(string);
+        return isNotNull(string) && EMPTY_STRING.equals(string);
     }
 
     /**

@@ -3,6 +3,7 @@ package cn.doublefloat.pbms.framework.web.domain;
 import cn.doublefloat.pbms.common.constant.HttpStatus;
 import cn.doublefloat.pbms.common.utils.StringUtils;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.HashMap;
 
@@ -11,6 +12,7 @@ import java.util.HashMap;
  * @date 2020/7/20 2:21 下午
  */
 @Data
+@ToString
 public class AjaxResult extends HashMap<String, Object> {
 
     private static final long serialVersionUID = 1L;
