@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.doublefloat.pbms.project.system.mapper.MenuMapper">
+    <resultMap type="Menu" id="MenuResult">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parentName" column="parent_name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="path" column="path"/>
+        <result property="component" column="component"/>
+        <result property="isFrame" column="is_frame"/>
+        <result property="menuType" column="menu_type"/>
+        <result property="visible" column="visible"/>
+        <result property="status" column="status"/>
+        <result property="perms" column="perms"/>
+        <result property="icon" column="icon"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="deleteBy" column="delete_by"/>
+        <result property="deleteTime" column="delete_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectMenuVo">
+        select id, name, parent_id, order_num, path, component, is_frame, menu_type, visible, status, ifnull(perms,'') as perms, icon, create_time
+		from pbms_menu
+    </sql>
+
+    <select id="selectMenuList" parameterType="Menu" resultMap="MenuResult">
+        <include refid="selectMenuVo"/>
+        <where>
+            <if test="name != null and name != ''">
+                AND name like concat('%', #{name}, '%')
+            </if>
+            <if test="visible != null and visible != ''">
+                AND visible = #{visible}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+        </where>
+        order by parent_id, order_num
+    </select>
+
+    <select id="selectMenuListByUserId" parameterType="Menu" resultMap="MenuResult">
+        select distinct m.id, m.parent_id, m.name, m.path, m.component, m.visible, m.status, ifnull(m.perms,'') as
+        perms, m.is_frame, m.menu_type, m.icon, m.order_num, m.create_time
+        from pbms_menu m
+        left join pbms_role_menu rm on m.id = rm.menu_id
+        left join pbms_user_role ur on rm.role_id = ur.role_id
+        left join pbms_role ro on ur.role_id = ro.id
+        where ur.user_id = #{params.userId}
+        <if test="name != null and name != ''">
+            AND name like concat('%', #{name}, '%')
+        </if>
+        <if test="visible != null and visible != ''">
+            AND visible = #{visible}
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        order by m.parent_id, m.order_num
+    </select>
+
+    <select id="selectMenuTreeAll" resultMap="MenuResult">
+        SELECT DISTINCT m.id, m.parent_id, m.name, m.path, m.component, m.visible, m.status, ifnull(m.perms, '') as perms, m.is_frame, m.menu_type, m.icon, m.order_num, m.create_time
+        FROM pbms_menu m
+        WHERE m.menu_type in ('M', 'C') AND m.status = 0
+        ORDER BY m.parent_id, m.order_num
+    </select>
+
+    <select id="selectMenuTreeByUserId" resultMap="MenuResult">
+        SELECT DISTINCT m.id, m.parent_id, m.name, m.path, m.component, m.visible, m.status, ifnull(m.perms, '') as perms, m.is_frame, m.menu_type, m.icon, m.order_num, m.create_time
+        FROM pbms_menu m
+            LEFT JOIN pbms_role_menu rm ON ro.menu_id = m.id
+            LEFT JOIN pbms_role r ON rm.role_id = r.id
+            LEFT JOIN pbms_user_role ur ON r.id = ur.role_id
+            LEFT JOIN pbms_user u ON u.id = ur.user_id
+        WHERE u.id = #{userId} AND m.menu_type in ('M', 'C') AND m.status = 0 AND ro.status = 0
+        ORDER BY m.parent_id, m.order_num
+    </select>
+
+    <select id="queryMenuInfo" parameterType="java.lang.Long" resultMap="MenuResult">
+        SELECT * FROM pbms_menu WHERE id = #{menuId};
+    </select>
+
+    <select id="selectChildrenSize" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM pbms_menu WHERE parent_id = #{parentId};
+    </select>
+
+    <select id="checkMenuNameUnique" parameterType="Menu" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM pbms_menu WHERE name = #{name};
+    </select>
+
+    <insert id="insertMenu" parameterType="Menu">
+        INSERT INTO pbms_menu (
+        id, name, parent_id, order_num,
+        <if test="path != null and path != ''">path,</if>
+        <if test="component != null and component != ''">component,</if>
+        is_frame, menu_type, visible, status,
+        <if test="perms != null and perms != ''">perms,</if>
+        icon, create_by, create_time, update_by, update_time
+        <if test="remark != null and remark != ''">, remark</if>
+        ) VALUES (
+        #{id}, #{name}, #{parentId}, #{orderNum},
+        <if test="path != null and path != ''">#{path},</if>
+        <if test="component != null and component != ''">#{component},</if>
+        #{isFrame}, #{menuType}, #{visible}, #{status},
+        <if test="perms != null and perms != ''">#{perms},</if>
+        #{icon}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}
+        <if test="remark != null and remark != ''">, #{remark}</if>
+        );
+    </insert>
+
+</mapper>

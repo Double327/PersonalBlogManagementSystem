@@ -89,4 +89,9 @@ public class User extends BaseEntity {
      * 备注
      */
     private String remark;
+
+
+    public Boolean isAdmin() {
+        return "00".equals(userType);
+    }
 }

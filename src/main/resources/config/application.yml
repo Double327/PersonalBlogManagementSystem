@@ -26,8 +26,10 @@ spring:
     druid:
       # 主库数据源
       url: jdbc:mysql://localhost:3306/PBMS?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+      #url: jdbc:mysql://cdb-2tt4kxl0.bj.tencentcdb.com:10151/PBMS?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
       username: root
       password: mysql0327LGSsr
+      #password: 0327LGSsr
       # 初始连接数
       initialSize: 5
       # 最小连接池数量

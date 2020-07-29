@@ -4,6 +4,8 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author 李广帅
@@ -41,4 +43,23 @@ public class BaseEntity implements Serializable {
      * 删除时间
      */
     private Date deleteTime;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    /**
+     * 请求参数
+     */
+    private Map<String, Object> params;
+
+    public Map<String, Object> getParams()
+    {
+        if (params == null)
+        {
+            params = new HashMap<>();
+        }
+        return params;
+    }
 }

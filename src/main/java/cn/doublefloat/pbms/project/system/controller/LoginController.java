@@ -6,7 +6,9 @@ import cn.doublefloat.pbms.framework.security.LoginUser;
 import cn.doublefloat.pbms.framework.security.service.LoginService;
 import cn.doublefloat.pbms.framework.security.service.TokenService;
 import cn.doublefloat.pbms.framework.web.domain.AjaxResult;
+import cn.doublefloat.pbms.project.system.domain.Menu;
 import cn.doublefloat.pbms.project.system.domain.User;
+import cn.doublefloat.pbms.project.system.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,9 @@ public class LoginController {
 
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private MenuService menuService;
 
     @PostMapping("/login")
     public AjaxResult login(String username, String password, String code, String uuid) throws Exception {
@@ -52,7 +57,7 @@ public class LoginController {
     public AjaxResult getRouters() {
         LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
         User user = loginUser.getUser();
-
-        return AjaxResult.success();
+        List<Menu> menus = menuService.queryMenuTreeByUser(user);
+        return AjaxResult.success(menuService.buildMenus(menus));
     }
 }
