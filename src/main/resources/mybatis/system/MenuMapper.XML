@@ -118,4 +118,15 @@
         );
     </insert>
 
+    <delete id="deleteMenuById">
+        UPDATE pbms_menu set status = 2 where id = #{id};
+    </delete>
+
+    <delete id="deleteMenuByIds">
+        UPDATE pbms_menu SET status = 2 WHERE id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
 </mapper>

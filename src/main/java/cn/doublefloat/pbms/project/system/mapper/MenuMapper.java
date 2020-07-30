@@ -52,14 +52,6 @@ public interface MenuMapper {
     public Menu queryMenuInfo(Long menuId);
 
     /**
-     * 新增菜单信息
-     *
-     * @param menu 菜单信息
-     * @return 结果
-     */
-    public Integer insertMenu(Menu menu);
-
-    /**
      * 查询子菜单个数
      *
      * @param parentId 父菜单ID
@@ -74,4 +66,36 @@ public interface MenuMapper {
      * @return 结果
      */
     public Integer checkMenuNameUnique(Menu menu);
+
+    /**
+     * 新增菜单信息
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    public Integer insertMenu(Menu menu);
+
+    /**
+     * 根据菜单ID删除菜单信息
+     *
+     * @param id 菜单ID
+     * @return 结果
+     */
+    public Integer deleteMenuById(Long id);
+
+    /**
+     * 根据菜单ID批量删除菜单信息
+     *
+     * @param ids 菜单ID
+     * @return 结果
+     */
+    public Integer deleteMenuByIds(Long[] ids);
+
+    /**
+     * 更新菜单信息
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    public Integer updateMenu(Menu menu);
 }

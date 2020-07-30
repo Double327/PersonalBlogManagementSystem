@@ -70,6 +70,11 @@ public class MenuController extends BaseController {
     }
 
 
+    public AjaxResult edit(Menu menu) {
+        return new AjaxResult();
+    }
+
+
     @DeleteMapping("/remove")
     public AjaxResult remove(Menu menu) {
         return toAjax(menuService.deleteMenu(menu.getId()));
