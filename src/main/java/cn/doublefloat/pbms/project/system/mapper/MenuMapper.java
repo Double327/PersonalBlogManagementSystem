@@ -98,4 +98,12 @@ public interface MenuMapper {
      * @return 结果
      */
     public Integer updateMenu(Menu menu);
+
+    /**
+     * 根据用户ID查询权限
+     *
+     * @param userId 用户ID
+     * @return 权限列表
+     */
+    List<String> queryMenuPermsByUserId(Long userId);
 }

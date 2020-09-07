@@ -34,6 +34,7 @@
 
     <select id="selectMenuList" parameterType="Menu" resultMap="MenuResult">
         <include refid="selectMenuVo"/>
+        WHERE status != 2
         <where>
             <if test="name != null and name != ''">
                 AND name like concat('%', #{name}, '%')
@@ -55,7 +56,7 @@
         left join pbms_role_menu rm on m.id = rm.menu_id
         left join pbms_user_role ur on rm.role_id = ur.role_id
         left join pbms_role ro on ur.role_id = ro.id
-        where ur.user_id = #{params.userId}
+        where status != 2 AND ur.user_id = #{params.userId}
         <if test="name != null and name != ''">
             AND name like concat('%', #{name}, '%')
         </if>
@@ -96,6 +97,14 @@
 
     <select id="checkMenuNameUnique" parameterType="Menu" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM pbms_menu WHERE name = #{name};
+    </select>
+
+    <select id="queryMenuPermsByUserId" parameterType="Long" resultType="String">
+        SELECT DISTINCT m.perms
+		FROM pbms_menu m
+			 LEFT JOIN pbms_role_menu rm on m.id = rm.menu_id
+			 LEFT JOIN pbms_user_role ur on rm.role_id = ur.role_id
+		WHERE ur.user_id = #{userId} and m.delete_time is null
     </select>
 
     <insert id="insertMenu" parameterType="Menu">

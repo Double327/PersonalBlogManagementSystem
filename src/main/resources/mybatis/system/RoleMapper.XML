@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.doublefloat.pbms.project.system.mapper.RoleMapper">
+    <resultMap id="RoleResult" type="Role">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="key" column="key"/>
+        <result property="sort" column="sort"/>
+        <result property="dataScope" column="data_scope"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="queryRoleVo">
+        SELECT DISTINCT r.id, r.name, r.key, r.sort, r.status, r.create_time, r.remark
+        FROM pbms_role r
+        LEFT JOIN pbms_user_role ur on ur.role_id = r.id
+        LEFT JOIN pbms_user u on u.id = ur.user_id
+    </sql>
+
+    <select id="queryRoleList" parameterType="Role" resultMap="RoleResult">
+        <include refid="queryRoleVo"/>
+        where r.delete_time is null
+        <if test="name != null and name != ''">
+            AND r.name like concat('%', #{name}, '%')
+        </if>
+        <if test="status != null and status != ''">
+            AND r.status = #{status}
+        </if>
+        <if test="key != null and key != ''">
+            AND r.key like concat('%', #{key}, '%')
+        </if>
+    </select>
+
+    <select id="queryRolePermissionByUserId" parameterType="Long" resultMap="RoleResult">
+        <include refid="queryRoleVo"/>
+        WHERE r.delete_time IS NULL AND ur.user_id = #{userId}
+    </select>
+
+    <select id="queryAllRoles" resultMap="RoleResult">
+        <include refid="queryRoleVo"/>
+    </select>
+</mapper>

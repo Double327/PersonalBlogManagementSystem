@@ -11,19 +11,55 @@ import lombok.ToString;
 @Data
 @ToString
 public class Role extends BaseEntity {
+    /**
+     * 角色ID
+     */
     private Long id;
 
+    /**
+     * 角色名称
+     */
     private String name;
 
+    /**
+     * 角色权限字符串
+     */
     private String key;
 
+    /**
+     * 角色显示顺序
+     */
     private String sort;
 
+    /**
+     * 访问数据范围
+     */
     private String dataScope;
 
+    /**
+     * 角色状态
+     */
     private String status;
 
+    /**
+     * 用户是否存在此角色
+     */
     private Boolean flag = false;
 
+    /**
+     * 菜单组
+     */
     private Long[] menuIds;
+
+    public Role(Long id) {
+        this.id = id;
+    }
+
+    public static boolean isAdmin(Long roleId) {
+        return roleId != null && 1L == roleId;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin(this.id);
+    }
 }

@@ -5,6 +5,7 @@ import cn.doublefloat.pbms.common.utils.ServletUtils;
 import cn.doublefloat.pbms.framework.security.LoginUser;
 import cn.doublefloat.pbms.framework.security.service.LoginService;
 import cn.doublefloat.pbms.framework.security.service.TokenService;
+import cn.doublefloat.pbms.framework.security.service.UserPermissionService;
 import cn.doublefloat.pbms.framework.web.domain.AjaxResult;
 import cn.doublefloat.pbms.project.system.domain.Menu;
 import cn.doublefloat.pbms.project.system.domain.User;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author 李广帅
@@ -34,6 +36,9 @@ public class LoginController {
     @Autowired
     private MenuService menuService;
 
+    @Autowired
+    private UserPermissionService userPermissionService;
+
     @PostMapping("/login")
     public AjaxResult login(String username, String password, String code, String uuid) throws Exception {
 
@@ -48,7 +53,16 @@ public class LoginController {
     public AjaxResult getUserInfo() {
         AjaxResult res = AjaxResult.success();
         LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
-        res.put("data", loginUser.getUser());
+        User user = loginUser.getUser();
+        // 角色权限
+        Set<String> roles = userPermissionService.getRolePermission(user);
+
+        // 菜单权限
+        Set<String> permission = userPermissionService.getMenuPermission(user);
+
+        res.put("user", user);
+        res.put("roles", roles);
+        res.put("permissions", permission);
         return res;
     }
 

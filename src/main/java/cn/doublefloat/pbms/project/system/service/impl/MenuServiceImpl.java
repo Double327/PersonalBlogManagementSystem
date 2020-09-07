@@ -44,7 +44,14 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Set<String> queryMenuPermsByUserId(Long userId) {
-        return null;
+        List<String> perms = menuMapper.queryMenuPermsByUserId(userId);
+        Set<String> permsSet = new HashSet<>();
+        for (String perm : perms) {
+            if (StringUtils.isNotEmpty(perm)) {
+                permsSet.addAll(Arrays.asList(perm.trim().split(",")));
+            }
+        }
+        return permsSet;
     }
 
     @Override
@@ -119,12 +126,12 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Integer updateMenu(Menu menu) {
-        return null;
+        return menuMapper.updateMenu(menu);
     }
 
     @Override
     public Integer deleteMenu(Long menuId) {
-        return null;
+        return menuMapper.deleteMenuById(menuId);
     }
 
     @Override
